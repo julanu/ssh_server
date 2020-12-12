@@ -1,7 +1,7 @@
 FROM ubuntu:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV TZ=Europe/Bucharest
+ENV TZ=Europe/London
 
 # Update and install packages
 RUN apt-get update
