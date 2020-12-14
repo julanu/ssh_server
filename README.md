@@ -24,10 +24,23 @@ a01821c76e8b  ssh_test:1.0  "/usr/sbin/sshd -D"  11 minutes ago Up 11 minutes  0
 ## Connect to the container
 When running this, you will be able to connect using: `ssh test_acc@0.0.0.0`
 
+## Generate pair of ssh keys
 
-### TO-DO
-<input type="checkbox" /> SSH keys generation </br>
-<input type="checkbox" /> Python code for remote execution </br>
-<input type="checkbox" /> Subnet creation to assign IP to container
+### Create the key pair on the client machine:
+`$ ssh-keygen -t rsa`
 
+### Copy the public key into the new machine’s authorized_keys file with the ssh-copy-id command:
+`$ ssh-copy-id test_acc@0.0.0.0`
 
+### You can now login using the identity file:
+`$ ssh -i /home/julaw/.ssh/id_rsa test_acc@0.0.0.0`
+
+### Execute remote commands that require elevated access through SSH, by getting passwordless access in the sudoers file by adding the lines bellow in `/etc/sudoers` using `visudo` in your container, for example:
+
+```bash
+# Allow members of group sudo to execute any command
+%sudo   ALL=(ALL:ALL) ALL
+test_acc ALL=NOPASSWD: /usr/bin/ls
+```
+You can now execute that command remotely through ssh without being prompted for a password: <br/>
+`$ ssh -t -i /path/to/id_rsa test_acc@0.0.0.0 sudo /usr/bin/ls -la`

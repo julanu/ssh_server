@@ -5,7 +5,7 @@ ENV TZ=Europe/London
 
 # Update and install packages
 RUN apt-get update
-RUN apt-get install openssh-server sudo net-tools -y
+RUN apt-get install openssh-server sudo vim net-tools -y
 
 # Create user and specify rights
 RUN useradd -rm -d /home/ubuntu -s /bin/bash -g root -G sudo -u 1000 test_acc
